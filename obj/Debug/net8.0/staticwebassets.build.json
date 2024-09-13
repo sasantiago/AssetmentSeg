@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HKPDzBr6ECpd3Ce/Jmc257TyDyyX1is22V3mb8wYWug=",
+  "Hash": "eE8MdA+CCxLtw7wodZx+Uvb4PIY/uneOlzYLVTNKLg0=",
   "Source": "SEGURA-ASSETMENTS",
   "BasePath": "_content/SEGURA-ASSETMENTS",
   "Mode": "Default",
@@ -1250,6 +1250,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/bannerLogin.jpg"
+    },
+    {
+      "Identity": "/home/hackaton/Documentos/SEGURA-ASSETMENTS/wwwroot/images/manguruma.JPG",
+      "SourceId": "SEGURA-ASSETMENTS",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/hackaton/Documentos/SEGURA-ASSETMENTS/wwwroot/",
+      "BasePath": "_content/SEGURA-ASSETMENTS",
+      "RelativePath": "images/manguruma.JPG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/manguruma.JPG"
     },
     {
       "Identity": "/home/hackaton/Documentos/SEGURA-ASSETMENTS/wwwroot/images/reservas.jpg",

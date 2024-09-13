@@ -37,7 +37,7 @@ namespace SEGURA_ASSETMENTS.Controllers
             if (ModelState.IsValid)
             {
                 // Verificar el login del usuario
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.contrasena, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Contrasena, model.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {

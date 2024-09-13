@@ -1,6 +1,25 @@
 -- DROP SCHEMA dbo;
 
 CREATE SCHEMA dbo;
+-- master.dbo.AspNetRoles definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetRoles;
+
+CREATE TABLE master.dbo.AspNetRoles (
+	Id nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Name nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	NormalizedName nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	ConcurrencyStamp nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK_AspNetRoles PRIMARY KEY (Id)
+);
+ CREATE  UNIQUE NONCLUSTERED INDEX RoleNameIndex ON dbo.AspNetRoles (  NormalizedName ASC  )  
+	 WHERE  ([NormalizedName] IS NOT NULL)
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+
+
 -- master.dbo.Departamentos definition
 
 -- Drop table
@@ -143,33 +162,74 @@ CREATE TABLE master.dbo.spt_monitor (
 );
 
 
--- master.dbo.Clientes definition
+-- master.dbo.AspNetRoleClaims definition
 
 -- Drop table
 
--- DROP TABLE master.dbo.Clientes;
+-- DROP TABLE master.dbo.AspNetRoleClaims;
 
-CREATE TABLE master.dbo.Clientes (
-	clientes_id int IDENTITY(1,1) NOT NULL,
-	Pregunta_Secreta nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+CREATE TABLE master.dbo.AspNetRoleClaims (
+	Id int IDENTITY(1,1) NOT NULL,
+	RoleId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	ClaimType nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	ClaimValue nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK_AspNetRoleClaims PRIMARY KEY (Id),
+	CONSTRAINT FK_AspNetRoleClaims_AspNetRoles_RoleId FOREIGN KEY (RoleId) REFERENCES master.dbo.AspNetRoles(Id) ON DELETE CASCADE
+);
+ CREATE NONCLUSTERED INDEX IX_AspNetRoleClaims_RoleId ON dbo.AspNetRoleClaims (  RoleId ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+
+
+-- master.dbo.AspNetUsers definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetUsers;
+
+CREATE TABLE master.dbo.AspNetUsers (
+	Id nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	clientes_id int NOT NULL,
+	customer_NombreCompleto nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Roll nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	customer_fechaNacimiento datetime2 NOT NULL,
 	Celular nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	Correo nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Correo nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	Id_Departamento int NOT NULL,
 	Municipio nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Barrio nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Direccion nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Pregunta_Secreta nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Respuesta_Secreta nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	customer_NombreCompleto nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Auth_Correo nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	Auth_Celular nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	Contrasena nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Contrasena nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	DepartamentoID_Departamento int NULL,
-	CONSTRAINT PK_Clientes PRIMARY KEY (clientes_id),
-	CONSTRAINT FK_Clientes_Departamentos_DepartamentoID_Departamento FOREIGN KEY (DepartamentoID_Departamento) REFERENCES master.dbo.Departamentos(ID_Departamento)
+	UserName nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	NormalizedUserName nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Email nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	NormalizedEmail nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	EmailConfirmed bit NOT NULL,
+	PasswordHash nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	SecurityStamp nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	ConcurrencyStamp nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	PhoneNumber nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	PhoneNumberConfirmed bit NOT NULL,
+	TwoFactorEnabled bit NOT NULL,
+	LockoutEnd datetimeoffset NULL,
+	LockoutEnabled bit NOT NULL,
+	AccessFailedCount int NOT NULL,
+	CONSTRAINT PK_AspNetUsers PRIMARY KEY (Id),
+	CONSTRAINT FK_AspNetUsers_Departamentos_DepartamentoID_Departamento FOREIGN KEY (DepartamentoID_Departamento) REFERENCES master.dbo.Departamentos(ID_Departamento)
 );
- CREATE NONCLUSTERED INDEX IX_Clientes_DepartamentoID_Departamento ON dbo.Clientes (  DepartamentoID_Departamento ASC  )  
+ CREATE NONCLUSTERED INDEX EmailIndex ON dbo.AspNetUsers (  NormalizedEmail ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+ CREATE NONCLUSTERED INDEX IX_AspNetUsers_DepartamentoID_Departamento ON dbo.AspNetUsers (  DepartamentoID_Departamento ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+ CREATE  UNIQUE NONCLUSTERED INDEX UserNameIndex ON dbo.AspNetUsers (  NormalizedUserName ASC  )  
+	 WHERE  ([NormalizedUserName] IS NOT NULL)
 	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
 	 ON [PRIMARY ] ;
 
@@ -219,6 +279,78 @@ CREATE TABLE master.dbo.Tarifas (
 	 ON [PRIMARY ] ;
 
 
+-- master.dbo.AspNetUserClaims definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetUserClaims;
+
+CREATE TABLE master.dbo.AspNetUserClaims (
+	Id int IDENTITY(1,1) NOT NULL,
+	UserId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	ClaimType nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	ClaimValue nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK_AspNetUserClaims PRIMARY KEY (Id),
+	CONSTRAINT FK_AspNetUserClaims_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES master.dbo.AspNetUsers(Id) ON DELETE CASCADE
+);
+ CREATE NONCLUSTERED INDEX IX_AspNetUserClaims_UserId ON dbo.AspNetUserClaims (  UserId ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+
+
+-- master.dbo.AspNetUserLogins definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetUserLogins;
+
+CREATE TABLE master.dbo.AspNetUserLogins (
+	LoginProvider nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	ProviderKey nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	ProviderDisplayName nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	UserId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CONSTRAINT PK_AspNetUserLogins PRIMARY KEY (LoginProvider,ProviderKey),
+	CONSTRAINT FK_AspNetUserLogins_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES master.dbo.AspNetUsers(Id) ON DELETE CASCADE
+);
+ CREATE NONCLUSTERED INDEX IX_AspNetUserLogins_UserId ON dbo.AspNetUserLogins (  UserId ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+
+
+-- master.dbo.AspNetUserRoles definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetUserRoles;
+
+CREATE TABLE master.dbo.AspNetUserRoles (
+	UserId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	RoleId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	CONSTRAINT PK_AspNetUserRoles PRIMARY KEY (UserId,RoleId),
+	CONSTRAINT FK_AspNetUserRoles_AspNetRoles_RoleId FOREIGN KEY (RoleId) REFERENCES master.dbo.AspNetRoles(Id) ON DELETE CASCADE,
+	CONSTRAINT FK_AspNetUserRoles_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES master.dbo.AspNetUsers(Id) ON DELETE CASCADE
+);
+ CREATE NONCLUSTERED INDEX IX_AspNetUserRoles_RoleId ON dbo.AspNetUserRoles (  RoleId ASC  )  
+	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
+	 ON [PRIMARY ] ;
+
+
+-- master.dbo.AspNetUserTokens definition
+
+-- Drop table
+
+-- DROP TABLE master.dbo.AspNetUserTokens;
+
+CREATE TABLE master.dbo.AspNetUserTokens (
+	UserId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	LoginProvider nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Name nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	Value nvarchar(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK_AspNetUserTokens PRIMARY KEY (UserId,LoginProvider,Name),
+	CONSTRAINT FK_AspNetUserTokens_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES master.dbo.AspNetUsers(Id) ON DELETE CASCADE
+);
+
+
 -- master.dbo.Reservas definition
 
 -- Drop table
@@ -236,15 +368,15 @@ CREATE TABLE master.dbo.Reservas (
 	ID_Sede int NOT NULL,
 	ID_Cliente int NOT NULL,
 	SedeID_Sedes int NOT NULL,
-	clientes_id int NOT NULL,
+	ClienteId nvarchar(450) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	CONSTRAINT PK_Reservas PRIMARY KEY (ID_Reservas),
-	CONSTRAINT FK_Reservas_Clientes_clientes_id FOREIGN KEY (clientes_id) REFERENCES master.dbo.Clientes(clientes_id) ON DELETE CASCADE,
+	CONSTRAINT FK_Reservas_AspNetUsers_ClienteId FOREIGN KEY (ClienteId) REFERENCES master.dbo.AspNetUsers(Id) ON DELETE CASCADE,
 	CONSTRAINT FK_Reservas_Sedes_SedeID_Sedes FOREIGN KEY (SedeID_Sedes) REFERENCES master.dbo.Sedes(ID_Sedes) ON DELETE CASCADE
 );
- CREATE NONCLUSTERED INDEX IX_Reservas_SedeID_Sedes ON dbo.Reservas (  SedeID_Sedes ASC  )  
+ CREATE NONCLUSTERED INDEX IX_Reservas_ClienteId ON dbo.Reservas (  ClienteId ASC  )  
 	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
 	 ON [PRIMARY ] ;
- CREATE NONCLUSTERED INDEX IX_Reservas_clientes_id ON dbo.Reservas (  clientes_id ASC  )  
+ CREATE NONCLUSTERED INDEX IX_Reservas_SedeID_Sedes ON dbo.Reservas (  SedeID_Sedes ASC  )  
 	 WITH (  PAD_INDEX = OFF ,FILLFACTOR = 100  ,SORT_IN_TEMPDB = OFF , IGNORE_DUP_KEY = OFF , STATISTICS_NORECOMPUTE = OFF , ONLINE = OFF , ALLOW_ROW_LOCKS = ON , ALLOW_PAGE_LOCKS = ON  )
 	 ON [PRIMARY ] ;
 

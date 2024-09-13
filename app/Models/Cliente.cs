@@ -15,6 +15,7 @@ public class Cliente:IdentityUser
     public DateTime customer_fechaNacimiento { get; set; }
     public string Celular { get; set; }
     public string Correo { get; set; }
+    public string Email { get; set; }
     public int Id_Departamento { get; set; }
     public string Municipio { get; set; }
     public string Barrio { get; set; }

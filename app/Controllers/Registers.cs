@@ -21,7 +21,7 @@ namespace SEGURA_ASSETMENTS.Controllers
             _signInManager = signInManager;
             _context = context;
         }
-        
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -40,7 +40,7 @@ namespace SEGURA_ASSETMENTS.Controllers
                 {
                     customer_NombreCompleto = model.customer_NombreCompleto,
                     UserName = model.Correo, 
-                    Email = model.Correo,
+                    Email = model.Email,
                     Roll = model.Roll,
                     customer_fechaNacimiento = model.customer_fechaNacimiento,
                     Celular = model.Celular,
@@ -51,25 +51,26 @@ namespace SEGURA_ASSETMENTS.Controllers
                     Pregunta_Secreta = model.Pregunta_Secreta,
                     Respuesta_Secreta = model.Respuesta_Secreta,
                     Auth_Correo = model.Auth_Correo,
-                    Auth_Celular = model.Auth_Celular
-               
-
+                    Auth_Celular = model.Auth_Celular,
+                    Contrasena = model.Contrasena 
                 };
-                var result = await _userManager.CreateAsync(user, model.Contrasena);
+
+                var result = await _userManager.CreateAsync(user, model.Contrasena); 
+
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(user, isPersistent: true);
 
                     return RedirectToAction("Index", "Home");
                 }
-             
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-      
+
             return View(model);
         }
     }

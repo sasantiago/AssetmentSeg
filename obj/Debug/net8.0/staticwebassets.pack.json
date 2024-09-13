@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets/images/bannerLogin.jpg"
     },
     {
+      "Id": "/home/hackaton/Documentos/SEGURA-ASSETMENTS/wwwroot/images/manguruma.JPG",
+      "PackagePath": "staticwebassets/images/manguruma.JPG"
+    },
+    {
       "Id": "/home/hackaton/Documentos/SEGURA-ASSETMENTS/wwwroot/images/reservas.jpg",
       "PackagePath": "staticwebassets/images/reservas.jpg"
     },
